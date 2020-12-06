@@ -1,5 +1,6 @@
 import re
 
+
 def validate_dict(passport_values, required_fields):
     all_fields_valid = True
     if all(fields in passport_values.keys() for fields in required_fields) or \
