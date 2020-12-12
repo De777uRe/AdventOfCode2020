@@ -21,35 +21,28 @@ def parse_rule_to_dict(rule):
     return rule_dict
 
 
+def recurse_dict(all_bags_dict, sub_bag_dict):
+    bags_sum = 0
+    for bag in sub_bag_dict.keys():
+        if len(all_bags_dict[bag]) == 0:
+            bags_sum += sub_bag_dict[bag]
+        else:
+            bags_sum += sub_bag_dict[bag] + (sub_bag_dict[bag] * recurse_dict(all_bags_dict, all_bags_dict[bag]))
+
+    return bags_sum
+
+
 if __name__ == "__main__":
     with open("input", 'r') as input_file:
         bag_map = {}
         for rule in input_file:
             bag_map.update(parse_rule_to_dict(rule))
 
-        # pp = pprint.PrettyPrinter(indent=4)
-        # pp.pprint(bag_map)
-
         searched_bags = []
-        num_found = 0
 
-        target_bag = "shiny gold"
-        bag_search_list = []
-        for bag in bag_map.keys():
-            if target_bag in bag_map[bag].keys():
-                bag_search_list.append(bag)
-                searched_bags.append(bag)
-                num_found += 1
+        total_bags = recurse_dict(bag_map, bag_map["shiny gold"])
 
-        while len(bag_search_list) > 0:
-            target_bag = bag_search_list[0]
-            for bag in bag_map.keys():
-                if target_bag in bag_map[bag].keys():
-                    if bag not in bag_search_list and \
-                            bag not in searched_bags:
-                        bag_search_list.append(bag)
-                        searched_bags.append(bag)
-                        num_found += 1
-            bag_search_list.remove(target_bag)
+        pp = pprint.PrettyPrinter(indent=4)
+        pp.pprint(bag_map)
 
-        print(num_found)
+        print(total_bags)
