@@ -14,9 +14,6 @@ if __name__ == "__main__":
             instruction_map[line_number] = [instruction, False]
             line_number += 1
 
-        print(instruction_map)
-        print(len(instruction_map))
-
         swapped_instructions = []
         current_instruction = 1
         while current_instruction <= len(instruction_map):
@@ -25,8 +22,6 @@ if __name__ == "__main__":
             is_valid_program = True
             first_pass = True
             while is_valid_program and current_instruction <= len(instruction_map):
-                if current_instruction > len(instruction_map):
-                    print("FINISHED")
                 if current_instruction <= len(instruction_map):
                     parsed_instructions = instruction_map[current_instruction][0].split(' ')
                     operation = parsed_instructions[0]
